@@ -15,7 +15,7 @@ type User = {
   id: string;
   name?: string;
   email?: string;
-  avatar_url?: string | null; // Allow null for avatar_url
+  avatar_url?: string | null;
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -44,7 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         id: authUser.user.id,
         name: authUser.user.user_metadata?.display_name,
         email: authUser.user.email || "",
-        avatar_url: undefined, // Ensure compatibility
+        avatar_url: undefined,
       });
     };
 

@@ -100,9 +100,9 @@ export function SideUser({
   user,
 }: {
   user: {
-    name?: string; // Display Name
+    name?: string;
     email?: string;
-    avatar_url?: string; // Avatar URL
+    avatar_url?: string;
   } | null;
 }) {
   const { isMobile } = useSidebar();

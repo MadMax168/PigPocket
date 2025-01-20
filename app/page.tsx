@@ -11,7 +11,7 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { PiggyBank, TrendingUp, FileText } from "lucide-react";
 
 export default function Home() {
-  const router = useRouter(); // Get the useRouter hook
+  const router = useRouter();
 
   const handleGetStartedClick = () => {
     router.push(`/signpage`);
@@ -44,9 +44,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Highlight Features Section */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 px-4 max-w-5xl">
-            {/* Feature 1 */}
             <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
               <div className="flex justify-center mb-4">
                 <PiggyBank className="w-10 h-10 text-blue-500" />
@@ -56,8 +54,6 @@ export default function Home() {
                 Intuitive interface to add and review transactions in seconds.
               </p>
             </div>
-
-            {/* Feature 2 */}
             <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
               <div className="flex justify-center mb-4">
                 <TrendingUp className="w-10 h-10 text-green-500" />
@@ -68,8 +64,6 @@ export default function Home() {
                 charts.
               </p>
             </div>
-
-            {/* Feature 3 */}
             <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
               <div className="flex justify-center mb-4">
                 <FileText className="w-10 h-10 text-yellow-500" />

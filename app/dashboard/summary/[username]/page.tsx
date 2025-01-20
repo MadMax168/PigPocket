@@ -5,7 +5,7 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SummaryBox } from "@/components/summary/summary-box";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-export default function recordPage({
+export default function SummaryPage({
     params,
   }: {
     params: Promise<{ username: string }>;

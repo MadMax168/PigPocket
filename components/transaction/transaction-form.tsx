@@ -77,7 +77,6 @@ export function TransactionForms() {
     checkAuth();
   }, []);
 
-  // Reset ฟอร์มเมื่อวันที่เปลี่ยน
   useEffect(() => {
     if (date) {
       setTransactions([
@@ -95,8 +94,8 @@ export function TransactionForms() {
         className="w-full h-full flex flex-col gap-2 p-4 border rounded-xl shadow-md"
         onSubmit={(e) => {
           if (!isLoggedIn) {
-            e.preventDefault(); // ยกเลิกการส่งฟอร์ม
-            setShowDialog(true); // เปิด dialog
+            e.preventDefault();
+            setShowDialog(true);
           }
         }}
       >
@@ -110,7 +109,7 @@ export function TransactionForms() {
             type="date"
             className="w-auto"
             value={date}
-            onChange={(e) => setDate(e.target.value)} // อัปเดตวันที่
+            onChange={(e) => setDate(e.target.value)}
             required
           />
         </div>
@@ -162,7 +161,6 @@ export function TransactionForms() {
         </div>
       </form>
 
-      {/* Dialog สำหรับแจ้งให้เข้าสู่ระบบ */}
       {showDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-md shadow-md text-center space-y-4">

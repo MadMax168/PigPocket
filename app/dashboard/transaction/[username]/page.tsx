@@ -5,7 +5,7 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { TransactionForms } from "@/components/transaction/transaction-form";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-export default function recordPage({
+export default function RecordPage({
     params,
   }: {
     params: Promise<{ username: string }>;

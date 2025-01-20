@@ -3,7 +3,7 @@ import { RegisterSwitch } from "@/components/register/register-box";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 
-export default function signPage() {
+export default function SignPage() {
     return (
         <SidebarProvider>
             <AppSidebar />
