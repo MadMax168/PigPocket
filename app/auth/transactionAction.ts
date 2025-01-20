@@ -44,3 +44,49 @@ export async function insertTransactionAction(formData: FormData) {
 
   return { message: "All transactions inserted successfully!" };
 }
+
+export async function readTransactionAction() {
+  const supabase = await createClient();
+
+  const { data: transactions, error } = await supabase
+    .from("transactions")
+    .select("date, type, name, amount, category, description");
+
+  if (error) {
+    console.error("Error fetching transactions:", error.message);
+    return {
+      status: "error",
+      message: "Failed to fetch transactions.",
+      error: error.message,
+    };
+  }
+
+  if (!transactions || !Array.isArray(transactions)) {
+    return {
+      status: "error",
+      error: new Error("Failed to fetch transactions."),
+    };
+  }
+
+  let incomeTotal = 0;
+  let expenseTotal = 0;
+
+  transactions.forEach((transaction) => {
+    if (transaction.type === "Income") {
+      incomeTotal += transaction.amount;
+    } else if (transaction.type === "Expense") {
+      expenseTotal += transaction.amount;
+    }
+  });
+
+  const totalBalance = incomeTotal - expenseTotal;
+
+  return {
+    status: "success",
+    message: "Transactions fetched successfully.",
+    transactions,
+    incomeTotal,
+    expenseTotal,
+    totalBalance,
+  };
+}

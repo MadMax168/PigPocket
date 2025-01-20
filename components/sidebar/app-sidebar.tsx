@@ -73,27 +73,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
       ],
     },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: FileText,
-      isActive: true,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Mail,
-    },
+    // {
+    //   title: "Documentation",
+    //   url: "#",
+    //   icon: FileText,
+    //   isActive: true,
+    //   items: [
+    //     {
+    //       title: "Introduction",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Tutorials",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Feedback",
+    //   url: "#",
+    //   icon: Mail,
+    // },
   ];
 
   return (

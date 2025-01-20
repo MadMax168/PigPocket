@@ -60,11 +60,12 @@ function TransactionItems({
 
 export function TransactionForms() {
   const [transactions, setTransactions] = useState<any[]>([
-    { type: 'Transaction #1', name: "", amount: "", description: "", expanded: false },
+    { type: "Income", name: "", amount: "", category: "", description: "" },
   ]);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [date, setDate] = useState(""); // เก็บวันที่ที่เลือก
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -75,6 +76,15 @@ export function TransactionForms() {
 
     checkAuth();
   }, []);
+
+  // Reset ฟอร์มเมื่อวันที่เปลี่ยน
+  useEffect(() => {
+    if (date) {
+      setTransactions([
+        { type: "Income", name: "", amount: "", category: "", description: "" },
+      ]);
+    }
+  }, [date]);
 
   const handleDialogClose = () => setShowDialog(false);
 
@@ -95,7 +105,14 @@ export function TransactionForms() {
             <PiggyBank />
             Transactions Form
           </span>
-          <Input name="date" type="date" className="w-auto" />
+          <Input
+            name="date"
+            type="date"
+            className="w-auto"
+            value={date}
+            onChange={(e) => setDate(e.target.value)} // อัปเดตวันที่
+            required
+          />
         </div>
         <div className="h-full flex flex-col justify-between">
           <div className="h-[600px] p-2 border rounded-lg overflow-y-auto xl:h-[725px]">
@@ -137,6 +154,7 @@ export function TransactionForms() {
             <Button
               type="button"
               className="w-1/2 bg-yellow-500 hover:bg-yellow-600"
+              disabled
             >
               EDIT
             </Button>
