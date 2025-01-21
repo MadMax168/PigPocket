@@ -1,4 +1,5 @@
-# Pig Pocket - Personal Finance Management
+# Pig Pocket
+# Personal Finance Management
 
 ## Introduction | คำนำ
 
@@ -11,7 +12,7 @@
 ## Features
 
 - **Record** your transaction detail | บันทึกรายรับรายจ่ายของผู้ใช้
-- **Summary** your transaction to follow data | สรุปข้อมูลรายรับรายจ่าตเพเพื่อติดตามกิจกรรมทางการเงิน
+- **Summary** your transaction to follow data | สรุปข้อมูลธุรกรรมเพื่อติดตามกิจกรรมทางการเงิน
 - waiting for more update
 
 ---
