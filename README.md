@@ -4,19 +4,22 @@
 
 **Pig Pocket** is a personal finance management web application that helps you track your income and expenses in an easy and intuitive way. With Pig Pocket, you can manage your financial activities, visualize your spending habits, and gain better insights into your financial situation.
 
-**Pig Pocket** เป็นแอปพลิเคชันจัดการการเงินส่วนบุคคลที่ช่วยให้คุณติดตามรายได้และค่าใช้จ่ายได้อย่างง่ายดายและใช้งานได้สะดวก ด้วย Pig Pocket คุณสามารถจัดการกิจกรรมทางการเงินของคุณ มองเห็นพฤติกรรมการใช้จ่ายของคุณ และได้รับข้อมูลเชิงลึกเกี่ยวกับสถานการณ์การเงินของคุณ
+**Pig Pocket** เป็นเว็บแอปพลิเคชันจัดการการเงินส่วนบุคคลที่ช่วยให้คุณติดตามรายได้และค่าใช้จ่ายได้อย่างง่ายดายและใช้งานได้สะดวก ด้วย Pig Pocket คุณสามารถบริหารกิจกรรมทางการเงินของคุณ มองเห็นพฤติกรรมการใช้จ่ายของคุณ
+
+---
+
+## Features
+
+- **Record** your transaction detail | บันทึกรายรับรายจ่ายของผู้ใช้
+- **Summary** your transaction to follow data | สรุปข้อมูลรายรับรายจ่าตเพเพื่อติดตามกิจกรรมทางการเงิน
+- waiting for more update
 
 ---
 
 ## Technologies Used | เทคโนโลยีที่ใช้
 
-- **Frontend**: Next.js, TypeScript, ShadCN UI
+- **Frontend**: Next.js, ShadCN UI(Components)
 - **Backend**: Supabase (Database, Authentication)
-- **Version Control**: GitHub
-  
-- **Frontend**: Next.js, TypeScript, ShadCN UI
-- **Backend**: Supabase (ฐานข้อมูล, การยืนยันตัวตน)
-- **Version Control**: GitHub
 
 ---
 
