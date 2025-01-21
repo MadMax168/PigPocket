@@ -1,5 +1,4 @@
-# Pig Pocket
-# Personal Finance Management
+# Pig Pocket - Personal Finance Management
 
 ## Introduction | คำนำ
 
