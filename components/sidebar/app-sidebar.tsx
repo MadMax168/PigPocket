@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { SideItems, SideUser } from "@/components/sidebar/sidebar-items";
-import { LayoutDashboard, FileText, Home, Mail } from "lucide-react";
+import { LayoutDashboard, Home } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,14 +28,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       const { data: authUser, error: authError } = await supabase.auth.getUser();
       if (authError || !authUser.user) return;
 
-
       const { data: user, error } = await supabase
         .from("profiles")
         .select("display_name")
         .eq("id", authUser.user.id)
         .single();
 
-      if (!error) {
+      if (error) {
         console.error(error);
         return;
       }
@@ -73,27 +72,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
       ],
     },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: FileText,
-    //   isActive: true,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Feedback",
-    //   url: "#",
-    //   icon: Mail,
-    // },
   ];
 
   return (
