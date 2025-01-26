@@ -7,10 +7,21 @@ import { PiggyBank, Trash2 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { insertTransactionAction } from "@/app/auth/transactionAction";
 
-function TransactionItems({
-  index,
-  deleteTransaction,
-}: any) {
+// กำหนดประเภทของ TransactionItem props
+interface TransactionItemProps {
+  index: number;
+  deleteTransaction: (index: number) => void;
+}
+
+interface Transaction {
+  type: string;
+  name: string;
+  amount: string;
+  category: string;
+  description: string;
+}
+
+function TransactionItems({ index, deleteTransaction }: TransactionItemProps) {
   return (
     <div className="flex gap-1">
       <div className="w-full border rounded-md mb-2">
@@ -59,7 +70,7 @@ function TransactionItems({
 }
 
 export function TransactionForms() {
-  const [transactions, setTransactions] = useState<any[]>([
+  const [transactions, setTransactions] = useState<Transaction[]>([
     { type: "Income", name: "", amount: "", category: "", description: "" },
   ]);
 

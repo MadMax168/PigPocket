@@ -2,19 +2,28 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function insertTransactionAction(formData: FormData) {
+// ประกาศ Type สำหรับ Transaction
+interface Transaction {
+  type: string;
+  name: string;
+  amount: number;
+  category: string;
+  description: string;
+}
+
+export async function insertTransactionAction(formData: FormData): Promise<{ message: string }> {
   const supabase = await createClient();
 
-  const date = formData.get("date");
+  const date = formData.get("date") as string;
 
-  const transactions: any[] = [];
+  const transactions: Transaction[] = [];
   formData.forEach((value, key) => {
     const match = key.match(/^transactions\[(\d+)\]\[(.+)\]$/);
     if (match) {
       const index = parseInt(match[1], 10);
       const field = match[2];
       transactions[index] = transactions[index] || {};
-      transactions[index][field] = value;
+      (transactions[index] as any)[field] = value; // ใช้ `any` ชั่วคราวเฉพาะที่จำเป็น
     }
   });
 
@@ -28,7 +37,7 @@ export async function insertTransactionAction(formData: FormData) {
         date,
         type,
         name,
-        amount: parseFloat(amount || "0"),
+        amount: parseFloat(amount?.toString() || "0"),
         category,
         description,
       },
@@ -45,7 +54,15 @@ export async function insertTransactionAction(formData: FormData) {
   return { message: "All transactions inserted successfully!" };
 }
 
-export async function readTransactionAction() {
+export async function readTransactionAction(): Promise<{
+  status: string;
+  message: string;
+  transactions?: Transaction[];
+  incomeTotal?: number;
+  expenseTotal?: number;
+  totalBalance?: number;
+  error?: string;
+}> {
   const supabase = await createClient();
 
   const { data: transactions, error } = await supabase
@@ -64,7 +81,8 @@ export async function readTransactionAction() {
   if (!transactions || !Array.isArray(transactions)) {
     return {
       status: "error",
-      error: new Error("Failed to fetch transactions."),
+      message: "Failed to fetch transactions.",
+      error: "Invalid data format.",
     };
   }
 
@@ -73,9 +91,9 @@ export async function readTransactionAction() {
 
   transactions.forEach((transaction) => {
     if (transaction.type === "Income") {
-      incomeTotal += transaction.amount;
+      incomeTotal += transaction.amount || 0;
     } else if (transaction.type === "Expense") {
-      expenseTotal += transaction.amount;
+      expenseTotal += transaction.amount || 0;
     }
   });
 
