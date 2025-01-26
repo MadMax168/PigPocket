@@ -23,7 +23,7 @@ export async function insertTransactionAction(formData: FormData): Promise<{ mes
       const index = parseInt(match[1], 10);
       const field = match[2];
       transactions[index] = transactions[index] || {};
-      (transactions[index] as any)[field] = value; // ใช้ `any` ชั่วคราวเฉพาะที่จำเป็น
+      (transactions[index] as Transaction)[field] = value; // แทนที่ `any` ด้วย `Transaction`
     }
   });
 
