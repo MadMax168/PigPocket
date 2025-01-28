@@ -14,6 +14,11 @@
 - **Summary** your transaction to follow data | สรุปข้อมูลธุรกรรมเพื่อติดตามกิจกรรมทางการเงิน
 - waiting for more update
 
+## Next Update
+
+- **Gross Profit(GP)** user can fill the GP to calcurate profit
+- **Note** user can note the transactions that they have to pay
+  
 ---
 
 ## Technologies Used | เทคโนโลยีที่ใช้
