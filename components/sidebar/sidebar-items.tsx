@@ -115,7 +115,7 @@ export function SideUser( ) {
         .eq("id", authUser.user.id)
         .single();
 
-      if (!error) {
+      if (error) {
         console.log(error);
         return;
       }
