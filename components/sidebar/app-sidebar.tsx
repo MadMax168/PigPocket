@@ -1,15 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { SideItems, SideUser } from "@/components/sidebar/sidebar-items";
 import { LayoutDashboard, Home } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { SideItems, SideUser } from "@/components/sidebar/sidebar-items";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { createClient } from "@/utils/supabase/client";
+
 
 type User = {
   id: string;
@@ -19,36 +20,36 @@ type User = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [userData, setUserData] = React.useState<User | null>(null);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const supabase = createClient();
-
-      const { data: authUser, error: authError } = await supabase.auth.getUser();
-      if (authError || !authUser.user) return;
-
-      const { data: user, error } = await supabase
-        .from("profiles")
-        .select("display_name")
-        .eq("id", authUser.user.id)
-        .single();
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      setUserData({
-        id: authUser.user.id,
-        name: authUser.user.user_metadata?.display_name,
-        email: authUser.user.email || "",
-        avatar_url: undefined,
-      });
-    };
-
-    fetchData();
-  }, []);
+   const [userData, setUserData] = React.useState<User | null>(null);
+  
+    React.useEffect(() => {
+      const fetchData = async () => {
+        const supabase = createClient();
+  
+        const { data: authUser, error: authError } = await supabase.auth.getUser();
+        if (authError || !authUser.user) return;
+  
+        const { data: user, error } = await supabase
+          .from("profiles")
+          .select("display_name")
+          .eq("id", authUser.user.id)
+          .single();
+  
+        if (error) {
+          console.log(error);
+          return;
+        }
+  
+        setUserData({
+          id: authUser.user.id,
+          name: authUser.user.user_metadata?.display_name,
+          email: authUser.user.email || "",
+          avatar_url: undefined,
+        });
+      };
+  
+      fetchData();
+    }, []);
 
   const sideItems = [
     {
@@ -80,7 +81,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SideItems item={sideItems} />
       </SidebarContent>
       <SidebarFooter>
-        <SideUser user={userData} />
+        <SideUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

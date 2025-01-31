@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+import { createClient } from "@/utils/supabase/client";
 import { signOutAction } from "@/app/auth/registerAction";
 import { ChevronRight, ChevronsUpDown, LogOut, LogIn, BadgeCheck, Bell, type LucideIcon } from "lucide-react";
 import {
@@ -96,18 +98,40 @@ export function SideItems({
   );
 }
 
-export function SideUser({
-  user,
-}: {
-  user: {
-    name?: string;
-    email?: string;
-    avatar_url?: string;
-  } | null;
-}) {
+export function SideUser( ) {
   const { isMobile } = useSidebar();
+  const [userData, setUserData] = React.useState<User | null>(null);
 
-  if (!user) {
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const supabase = createClient();
+
+      const { data: authUser, error: authError } = await supabase.auth.getUser();
+      if (authError || !authUser.user) return;
+
+      const { data: user, error } = await supabase
+        .from("profiles")
+        .select("display_name")
+        .eq("id", authUser.user.id)
+        .single();
+
+      if (!error) {
+        console.log(error);
+        return;
+      }
+
+      setUserData({
+        id: authUser.user.id,
+        name: authUser.user.user_metadata?.display_name,
+        email: authUser.user.email || "",
+        avatar_url: undefined,
+      });
+    };
+
+    fetchData();
+  }, []);
+
+  if (!userData) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
@@ -132,14 +156,14 @@ export function SideUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar_url} alt={user.name} />
-                <AvatarFallback className="rounded-lg">
-                  {user.name?.charAt(0) || "?"}
-                </AvatarFallback>
+              <AvatarImage src={userData.avatar_url} alt={userData.name} />
+              <AvatarFallback className="rounded-lg">
+                {userData.name?.charAt(0) || "?"}
+              </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-semibold">{userData.name}</span>
+                <span className="truncate text-xs">{userData.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -153,14 +177,14 @@ export function SideUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar_url} alt={user.name} />
+                  <AvatarImage src={userData.avatar_url} alt={userData.name} />
                   <AvatarFallback className="rounded-lg">
-                    {user.name?.charAt(0) || "?"}
+                    {userData.name?.charAt(0) || "?"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-semibold">{userData.name}</span>
+                  <span className="truncate text-xs">{userData.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
