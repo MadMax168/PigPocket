@@ -1,0 +1,26 @@
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+
+# Go build output
+*.out
+*.exe
+*.test
+
+# Vendor (if using go mod vendor)
+vendor/
+
+# IDE/editor config
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Go workspace files
+go.work
+go.work.sum
