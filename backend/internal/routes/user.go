@@ -21,7 +21,7 @@ func UserRoutes(r *gin.Engine) {
 		var user models.User
 
 		if err := c.BindJSON(&user); err != nil {
-			c.JSON(400, gin.H{"error": err.Error()})
+			c.JSON(400, gin.H{"error": "Invalid request"})
 		}
 
 		hashed, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
