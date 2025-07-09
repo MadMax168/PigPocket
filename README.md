@@ -30,6 +30,6 @@ PigPocket เป็นเว็บแอปสำหรับช่วยติ�
 ## 📦 Installation (Local)
 
 ```bash
-git clone https://github.com/yourusername/pigpocket.git
+git clone https://github.com/MadMax168/PigPocket.git
 cd pigpocket
 go mod tidy# PigPocket
