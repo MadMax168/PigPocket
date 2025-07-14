@@ -2,8 +2,9 @@ package routes
 
 import (
 	"pigpocket/internal/db"
-	"github.com/gin-gonic/gin"
+	"pigpocket/internal/logic"
 	"pigpocket/internal/models"
+	"github.com/gin-gonic/gin"
 )
 
 func TransactionRoutes(r *gin.RouterGroup) {
@@ -85,4 +86,17 @@ func TransactionRoutes(r *gin.RouterGroup) {
 		db.DB.Delete(&tx)
 		c.JSON(200, "Delete-Success")
 	})
+
+	r.GET("/summary", func(c *gin.Context) {
+    UID := c.GetUint("userID")
+    WID := c.GetUint("walletID")
+    
+    data, err := logic.SummaryFeature(UID, WID)
+    if err != nil {
+        c.JSON(500, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(200, data)
+})
 }
