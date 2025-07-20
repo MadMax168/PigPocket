@@ -37,6 +37,5 @@ services:
     working_dir: /app
     command: npm run dev
 
-
 volumes:
   postgres_data:

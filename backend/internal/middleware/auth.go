@@ -10,24 +10,23 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// 1.Get Auth header
-		tokenStr := c.GetHeader("Authorization")
-		if tokenStr == "" {
-			c.JSON(401, gin.H{"error": "No Authorization header provided"})
-			c.Abort()
-			return
+		// 1. พยายามอ่านจาก Cookie ก่อน
+		tokenStr, err := c.Cookie("token")
+		if err != nil {
+			// ถ้าไม่มี cookie ลองอ่านจาก Header
+			authHeader := c.GetHeader("Authorization")
+			parts := strings.Split(authHeader, " ")
+			if len(parts) == 2 && parts[0] == "Bearer" {
+				tokenStr = parts[1] // ✅ ตรงนี้คือ token แท้ ๆ
+			} else {
+				c.JSON(401, gin.H{"error": "No valid token found in cookie or header"})
+				c.Abort()
+				return
+			}
 		}
 
-		// 2.Pull Token from Bearer
-		parts := strings.Split(tokenStr, " ")
-		if len(parts) != 2 || parts[0] != "Bearer" {
-			c.JSON(401, gin.H{"error": "Invalid Authorization header format"})
-			c.Abort()
-			return
-		}
-
-		// 3.Checking Token
-		token, err := jwt.ParseWithClaims(parts[1], &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
+		// 2. ตรวจสอบ JWT Token
+		token, err := jwt.ParseWithClaims(tokenStr, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 
@@ -37,12 +36,12 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// 4.
+		// 3. Extract userID จาก Claims แล้ว set เข้า context
 		if claims, ok := token.Claims.(*jwt.RegisteredClaims); ok {
 			uid, _ := strconv.Atoi(claims.Subject)
 			c.Set("userID", uint(uid))
 		} else {
-			c.JSON(401, gin.H{"error": "Invalid Token Claims"})
+			c.JSON(401, gin.H{"error": "Invalid token claims"})
 			c.Abort()
 			return
 		}

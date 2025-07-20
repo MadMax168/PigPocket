@@ -2,6 +2,8 @@
 
 import * as React from "react"
 import { SideMain } from "./side-main"
+import { SideUser } from "./side-user"
+import { useUser } from "@/hooks/useUser"
 import { 
     Sidebar, 
     SidebarHeader, 
@@ -12,25 +14,22 @@ import {
 import {
     Mail,
     House,
+    Wallet,
     PiggyBank,
 } from "lucide-react"
 
 const data = {
-    user: {
-        name: "test123",
-        email: "test@mail.com",
-    },
     main: [
         {
             title: "home",
-            url: "#",
+            url: "/",
             icon: House,
             isActivate: false,
         },
         {
             title: "pocket-board",
-            url: "#",
-            icon: PiggyBank,
+            url: "/wallet",
+            icon: Wallet,
             isActivate: true,
             items: [
                 {
@@ -53,6 +52,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const { user, isLoading } = useUser()
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -65,7 +66,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SideMain items={data.main} />
             </SidebarContent>
             <SidebarFooter>
-                
+                {isLoading ? (
+                    <SideUser user={null} />
+                ) : (
+                    <SideUser user={user} />
+                )}
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

@@ -17,6 +17,20 @@ func UserRoutes(r *gin.Engine) {
 		c.JSON(200, users)
 	})
 
+	r.GET("/me", middleware.AuthMiddleware(), func(c *gin.Context) {
+		userID := c.GetUint("userID")
+		var user models.User
+		if err := db.DB.First(&user, userID).Error; err != nil {
+			c.JSON(404, gin.H{"error": "User not found"})
+			return
+		}
+		c.JSON(200, gin.H{
+			"username": user.Username,
+			"email": user.Email,
+		})
+	})
+
+
 	r.POST("/register", func(c *gin.Context) {
 		var user models.User
 
@@ -64,8 +78,15 @@ func UserRoutes(r *gin.Engine) {
 			return
 		}
 
-		c.JSON(200, gin.H{"token": token})
+		c.SetCookie("token", token, 3600*24, "/", "localhost", false, true)
+		c.JSON(200, gin.H{"message": "login success"})
 	})
+
+	r.POST("/logout", func(c *gin.Context) {
+		c.SetCookie("token", "", -1, "/", "localhost", false, true)
+		c.JSON(200, gin.H{"message": "logged out"})
+	})
+
 
 	r.PUT("/userdata", func(c *gin.Context) {
 		id := c.Param("id")
