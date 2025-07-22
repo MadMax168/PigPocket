@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { Separator } from "@radix-ui/react-separator";
 import { 
-    SidebarInset, 
     SidebarTrigger 
 } from "./ui/sidebar";
 import { 

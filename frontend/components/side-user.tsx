@@ -2,7 +2,6 @@
 
 import { LogOut, LogIn, UserPlus } from "lucide-react"
 import { 
-    useSidebar, 
     SidebarMenu, 
     SidebarMenuItem, 
     SidebarMenuButton, 
@@ -18,7 +17,6 @@ export function SideUser(
             email: string
         } | null
     }) {
-  const { isMobile } = useSidebar()
 
   return (    
     <SidebarGroup>
