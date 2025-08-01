@@ -2,12 +2,13 @@ import { PayForm } from "./pl-form";
 
 export function PayList() {
     return (
-        <div className="border rounded-lg p-4 space-y-3">
+        <div className="h-[450px] border rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-center">
                 <div className="text-2xl font-bold">To Pay Lists</div>
                 <PayForm />
             </div>
-            <table className="w-full text-sm">
+            <div className="h-[375px] border rounded-md p-1 overflow-y-auto">
+                <table className="w-full text-sm">
                 <thead>
                     <tr className="text-left text-gray-400">
                         <th className="p-2"><input type="checkbox" /></th>
@@ -29,6 +30,7 @@ export function PayList() {
                     ))}
                 </tbody>
             </table>
+            </div>
         </div>
     )
 }

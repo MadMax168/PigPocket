@@ -1,8 +1,6 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { NavHeader } from '@/components/header'
-import { CircularPro } from '@/components/summary/circular'
 import { PayList } from '@/components/summary/pay-list'
-import { Streak } from '@/components/summary/streak'
 import { SummaryCard } from '@/components/summary/summary-list'
 import { TransactionSummaryTable } from '@/components/summary/summary-table'
 import { Button } from '@/components/ui/button'
@@ -37,8 +35,12 @@ export default function SummaryPage({ params }: { params: { walletName: string }
                     {/* Left: Circular + Streak + PayList */}
                     <div className="col-span-1 flex flex-col gap-5">
                         <div className="flex-1 grid grid-cols-2 gap-5">
-                        <CircularPro />
-                        <Streak />
+                            <div className="border rounded-lg flex items-center justify-center text-2xl font-semibold text-blue-600">
+                                !Circle-Progress Will Coming Soon!
+                            </div>
+                            <div className="border rounded-lg flex items-center justify-center text-2xl font-semibold text-blue-600">
+                                !Streak-Counting Will Coming Soon!
+                            </div>
                         </div>
                         <PayList />
                     </div>
