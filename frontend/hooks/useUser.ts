@@ -1,8 +1,8 @@
 import useSWR from "swr"
-import { getMe } from "@/lib/api/authApi"
+import { authFetch } from "@/lib/api/fetch"
 
 export const useUser = () => {
-  const { data, error, isLoading } = useSWR("/user/me", getMe)
+  const { data, error, isLoading } = useSWR("/user/me", authFetch)
 
   return {
     user: data,

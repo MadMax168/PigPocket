@@ -2,14 +2,15 @@ package routes
 
 import (
 	"pigpocket/internal/db"
-	"github.com/gin-gonic/gin"
 	"pigpocket/internal/models"
+
+	"github.com/gin-gonic/gin"
 )
 
 func WalletRoutes(r *gin.RouterGroup) {
 	db.DB.AutoMigrate(&models.Wallet{})
-	
-	r.GET("/wallet", func(c *gin.Context){
+
+	r.GET("/profile", func(c *gin.Context) {
 		UID := c.GetUint("userID")
 		var wallets []models.Wallet
 
@@ -17,11 +18,17 @@ func WalletRoutes(r *gin.RouterGroup) {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
 		}
-		
-		c.JSON(200, wallets)
-	}) //Filter Feature
 
-	r.POST("/wallet", func(c *gin.Context){
+		for i := range wallets {
+			c.JSON(200, gin.H{
+				"name":   wallets[i].Name,
+				"target": wallets[i].Target,
+				"goal":   wallets[i].Goal,
+			})
+		}
+	})
+
+	r.POST("/wallet", func(c *gin.Context) {
 		var wallet models.Wallet
 
 		if err := c.BindJSON(&wallet); err != nil {
@@ -36,7 +43,7 @@ func WalletRoutes(r *gin.RouterGroup) {
 		c.JSON(201, wallet)
 	})
 
-	r.PUT("/wallet", func(c *gin.Context){
+	r.PUT("/wallet", func(c *gin.Context) {
 		UID := c.GetUint("userID")
 		id := c.Param("id")
 		var wallet models.Wallet
@@ -55,13 +62,13 @@ func WalletRoutes(r *gin.RouterGroup) {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
-		
+
 		wallet.UserID = UID
 		db.DB.Save(&wallet)
 		c.JSON(200, wallet)
 	})
 
-	r.DELETE("/wallet", func(c *gin.Context){
+	r.DELETE("/wallet", func(c *gin.Context) {
 		UID := c.GetUint("userID")
 		id := c.Param("id")
 		var wallet models.Wallet
