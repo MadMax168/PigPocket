@@ -2,20 +2,15 @@ package routes
 
 import (
 	"pigpocket/internal/db"
+	"pigpocket/internal/middleware"
 	"pigpocket/internal/models"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"pigpocket/internal/middleware"
 )
 
 func UserRoutes(r *gin.Engine) {
 	db.DB.AutoMigrate(&models.User{})
-
-	r.GET("/userdata", func(c *gin.Context) {
-		var users []models.User
-
-		c.JSON(200, users)
-	})
 
 	r.GET("/me", middleware.AuthMiddleware(), func(c *gin.Context) {
 		userID := c.GetUint("userID")
@@ -26,10 +21,9 @@ func UserRoutes(r *gin.Engine) {
 		}
 		c.JSON(200, gin.H{
 			"username": user.Username,
-			"email": user.Email,
+			"email":    user.Email,
 		})
 	})
-
 
 	r.POST("/register", func(c *gin.Context) {
 		var user models.User
@@ -85,37 +79,5 @@ func UserRoutes(r *gin.Engine) {
 	r.POST("/logout", func(c *gin.Context) {
 		c.SetCookie("token", "", -1, "/", "localhost", false, true)
 		c.JSON(200, gin.H{"message": "logged out"})
-	})
-
-
-	r.PUT("/userdata", func(c *gin.Context) {
-		id := c.Param("id")
-		var user models.User
-
-		if err := db.DB.First(&user, id).Error; err != nil {
-			c.JSON(404, gin.H{"error": err.Error()})
-			return
-		}
-
-		if err := c.BindJSON(&user); err != nil {
-			c.JSON(400, gin.H{"error": err.Error()})
-			return
-		}
-
-		db.DB.Save(&user)
-		c.JSON(200, user)
-	})
-
-	r.DELETE("/userdata", func(c *gin.Context) {
-		id := c.Param("id")
-		var user models.User
-
-		if err := db.DB.First(&user, id).Error; err != nil {
-			c.JSON(404, gin.H{"error": err.Error()})
-			return
-		}
-
-		db.DB.Delete(&user)
-		c.JSON(200, "Delete-Account")
 	})
 }

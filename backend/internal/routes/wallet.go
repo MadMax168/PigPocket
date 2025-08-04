@@ -19,13 +19,16 @@ func WalletRoutes(r *gin.RouterGroup) {
 			return
 		}
 
-		for i := range wallets {
-			c.JSON(200, gin.H{
-				"name":   wallets[i].Name,
-				"target": wallets[i].Target,
-				"goal":   wallets[i].Goal,
+		var result []gin.H
+		for _, wx := range wallets {
+			result = append(result, gin.H{
+				"name":   wx.Name,
+				"target": wx.Target,
+				"goal":   wx.Goal,
 			})
 		}
+
+		c.JSON(200, result)
 	})
 
 	r.POST("/wallet", func(c *gin.Context) {
