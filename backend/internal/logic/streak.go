@@ -14,7 +14,10 @@ func StreakFeature(userID, walletID uint) int {
 		Find(&txs)
 
 	streak := 0
-	prev := time.Now().Truncate(24 * time.Hour) //set today time to midnight
+	if len(txs) == 0 {
+		return 0
+	}
+	prev := txs[0].CreatedAt.Truncate(24 * time.Hour) //set today time to midnight
 
 	for _, tx := range txs {
 		txDate := tx.CreatedAt.Truncate(24 * time.Hour) //set transaction time to midnight

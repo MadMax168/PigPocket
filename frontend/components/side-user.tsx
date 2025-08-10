@@ -25,8 +25,8 @@ export function SideUser(
           <>
             {/* แสดง username / email */}
             <SidebarMenuItem className="flex flex-col items-start px-3 py-2 border rounded-md">
-              <div className="font-semibold text-md">{user.name}</div>
-              <div className="text-muted-foreground text-sm">{user.email}</div>
+              <div className="font-semibold text-md">{user?.name}</div>
+              <div className="text-muted-foreground text-sm">{user?.email}</div>
             </SidebarMenuItem>
 
             {/* ปุ่ม Logout */}

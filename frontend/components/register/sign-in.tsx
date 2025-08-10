@@ -8,7 +8,7 @@ import { signin } from "@/lib/api/authApi"
 
 export function SignForm() {
     const router = useRouter()
-    const [form, setForm] = useState({ name: "", password: "" })
+    const [form, setForm] = useState({ username: "", password: "" })
     const [error, setError] = useState("")
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,7 @@ export function SignForm() {
                 <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
                     <Input 
                         type="username" 
-                        name="name"
+                        name="username"
                         placeholder="username"
                         onChange={handleChange}
                     />

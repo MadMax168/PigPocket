@@ -1,10 +1,20 @@
+"use client"
+
 import { AppSidebar } from "@/components/app-sidebar";
 import { NavHeader } from "@/components/header";
-import { SummaryCard } from "@/components/summary/summary-list";
+import { SummaryCard } from "@/components/summary/summary-card";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Profile } from "@/components/wallet/profile";
+import { useAllSumCard } from "@/hooks/useTransaction";
 
 export default function Wallet() {
+    const { income, expense, balance, isLoading } = useAllSumCard()
+
+    const percent = (value: number, base: number) => {
+        if (base === 0) return 0
+        return Math.round((value / base) * 100)
+    }
+
     return (
         <SidebarProvider> 
             <AppSidebar />
@@ -12,9 +22,15 @@ export default function Wallet() {
                 <NavHeader />
                 {/* Summary */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <SummaryCard title="All-Income" amount={45678.9} percent={20} />
-                    <SummaryCard title="All-Expense" amount={2405} percent={33} />
-                    <SummaryCard title="All-Balance" amount={10353} percent={-8} />
+                    {isLoading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        <>
+                        <SummaryCard title="All-Income" amount={income} percent={percent(income, income + expense)} />
+                        <SummaryCard title="All-Expense" amount={expense} percent={percent(expense, income + expense)} />
+                        <SummaryCard title="All-Balance" amount={balance} percent={percent(balance, income)} />
+                        </>
+                    )}
                 </div>
                 
                 {/* Wallet Profile List */}

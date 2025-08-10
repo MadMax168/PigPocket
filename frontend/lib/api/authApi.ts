@@ -18,8 +18,8 @@ export const signup = (data : {
     })
 }
 
-export const signin = async ({ name, password } : { name: string; password: string }) => {
-  const res = await authApi.post("/login", {name, password})
+export const signin = async ({ username, password } : { username: string; password: string }) => {
+  const res = await authApi.post("/login", {username, password})
   return res.data
 }
 
