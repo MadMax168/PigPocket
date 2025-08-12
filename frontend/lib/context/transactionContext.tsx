@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { api } from "@/lib/api/api";
 
 export type TransactionType = "Income" | "Expense" | "Save";
 
@@ -24,7 +25,7 @@ type TransactionContextType = {
   setEditingTransaction: (txn: Transaction | null) => void;
   selectTransaction: (id: string) => void;
   deleteTransactions: () => void;
-  submitTransactions: () => void;
+  submitTransactions: () => Promise<void>;
 };
 
 const TransactionContext = createContext<TransactionContextType | undefined>(
@@ -35,6 +36,27 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
   const [savedTransactions, setSavedTransactions] = useState<Transaction[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+
+  const submitTransactions = async () => {
+    try {
+      for (const txn of savedTransactions) {
+        await api.post("/trans", {
+          title: txn.name,
+          category: txn.category,
+          amount: txn.amount,
+          description: txn.description,
+          date: txn.date,
+          type: txn.type
+        });
+      }
+      console.log("✅ Submitted to DB:", savedTransactions);
+
+      setSavedTransactions([]);
+      setSelectedIds([]);
+    } catch (error) {
+      console.error("❌ Failed to submit transactions", error);
+    }
+  };
 
   const addTransaction = (txn: Omit<Transaction, "id">) => {
     const newTxn: Transaction = { id: uuidv4(), ...txn };
@@ -58,13 +80,6 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
 
   const deleteTransactions = () => {
     setSavedTransactions((prev) => prev.filter((txn) => !selectedIds.includes(txn.id)));
-    setSelectedIds([]);
-  };
-
-  const submitTransactions = () => {
-    console.log("🚀 Submitted:", savedTransactions);
-    // TODO: replace with real API POST call
-    setSavedTransactions([]);
     setSelectedIds([]);
   };
 
